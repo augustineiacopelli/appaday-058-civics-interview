@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Civics Interview Practice — AppADay 059</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F4EC;
+    --paper-line:#DCD7C4;
+    --fed-blue:#0B3D6E;
+    --fed-blue-deep:#082A4D;
+    --steel:#4B5563;
+    --ink-green:#1F5C3E;
+    --ink-red:#A6192E;
+    --gold:#A9863A;
+    --cream:#FDFCF7;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    min-height:100dvh;
+    display:flex;
+    flex-direction:column;
+    background:var(--paper);
+    font-family:'PT Serif',serif;
+    color:var(--fed-blue-deep);
+  }
+  header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    padding:10px 16px;
+    background:var(--fed-blue-deep);
+    color:var(--cream);
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.7rem;
+    letter-spacing:0.04em;
+    flex-wrap:wrap;
+  }
+  header a{
+    color:var(--cream);
+    text-decoration:none;
+    border-bottom:1px solid rgba(253,252,247,0.4);
+  }
+  header .tag{ color:var(--gold); }
+  header .textsize-btn{
+    background:transparent;
+    border:1px solid rgba(253,252,247,0.5);
+    color:var(--cream);
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.68rem;
+    letter-spacing:0.04em;
+    padding:4px 8px;
+    cursor:pointer;
+  }
+  body.large-text{ font-size:1.18em; }
+  body.large-text .question{ font-size:clamp(1.25rem,5vw,1.5rem); }
+  .stats-line{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.72rem;
+    color:var(--steel);
+    border:1px solid var(--paper-line);
+    background:var(--paper);
+    padding:10px 12px;
+    margin-bottom:16px;
+  }
+  .review-block{
+    text-align:left;
+    margin-bottom:18px;
+  }
+  .review-block h3{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.68rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--steel);
+    margin:0 0 10px;
+  }
+  .review-item{
+    border-left:3px solid var(--ink-red);
+    padding:8px 12px;
+    margin-bottom:10px;
+    background:var(--paper);
+  }
+  .review-item .rq{
+    font-weight:700;
+    margin-bottom:4px;
+  }
+  .review-item .ra{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.78rem;
+    color:var(--ink-green);
+  }
+  main{
+    flex:1;
+    display:flex;
+    justify-content:center;
+    padding:20px 14px 40px;
+  }
+  .form-sheet{
+    width:100%;
+    max-width:640px;
+    background:var(--cream);
+    border:1px solid var(--paper-line);
+    box-shadow:0 14px 32px rgba(11,61,110,0.15);
+    padding:0;
+  }
+  .letterhead{
+    border-bottom:4px solid var(--fed-blue);
+    padding:20px 22px 14px;
+    text-align:center;
+  }
+  .letterhead .agency{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.68rem;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--steel);
+  }
+  .letterhead h1{
+    font-family:'PT Serif',serif;
+    font-weight:700;
+    font-size:clamp(1.3rem,5.5vw,1.7rem);
+    margin:8px 0 4px;
+    color:var(--fed-blue);
+  }
+  .letterhead .form-code{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.68rem;
+    color:var(--gold);
+    letter-spacing:0.06em;
+  }
+  .body-pad{ padding:20px 22px 26px; }
+  .scorecard-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.72rem;
+    letter-spacing:0.03em;
+    color:var(--steel);
+    border-bottom:1px solid var(--paper-line);
+    padding-bottom:10px;
+    margin-bottom:16px;
+  }
+  #tally{ color:var(--fed-blue); font-weight:600; }
+  .section-label{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.62rem;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin-bottom:6px;
+  }
+  .question{
+    font-family:'PT Serif',serif;
+    font-weight:700;
+    font-size:clamp(1.1rem,4.4vw,1.35rem);
+    line-height:1.4;
+    margin:0 0 18px;
+  }
+  .options{
+    display:flex;
+    flex-direction:column;
+    gap:9px;
+  }
+  .option{
+    text-align:left;
+    font-family:'PT Serif',serif;
+    font-size:1rem;
+    padding:12px 14px;
+    background:var(--paper);
+    border:1px solid var(--steel);
+    color:var(--fed-blue-deep);
+    cursor:pointer;
+    min-height:48px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .option:active{ background:var(--paper-line); }
+  .option .letter{
+    font-family:'IBM Plex Mono',monospace;
+    color:var(--gold);
+    font-size:0.82rem;
+    min-width:16px;
+  }
+  .option:disabled{ cursor:default; }
+  .option.correct{
+    background:rgba(31,92,62,0.10);
+    border-color:var(--ink-green);
+  }
+  .option.correct .letter::after{ content:" \2713"; color:var(--ink-green); }
+  .option.wrong{
+    background:rgba(166,25,46,0.06);
+    opacity:0.7;
+    text-decoration:line-through;
+  }
+  .answer-note{
+    margin-top:14px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.78rem;
+    color:var(--steel);
+    border-left:3px solid var(--fed-blue);
+    padding-left:12px;
+    min-height:1.4em;
+  }
+  .next-btn{
+    margin-top:20px;
+    width:100%;
+    padding:13px;
+    background:var(--fed-blue);
+    color:var(--cream);
+    border:none;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.82rem;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    cursor:pointer;
+  }
+  .next-btn:active{ background:var(--fed-blue-deep); }
+  .btn-secondary{
+    background:transparent;
+    color:var(--fed-blue);
+    border:1.5px solid var(--fed-blue);
+  }
+  .mode-btn.selected{
+    background:var(--fed-blue);
+    color:var(--cream);
+  }
+  #screen-start p, #screen-result p{
+    font-size:1rem;
+    line-height:1.6;
+    color:var(--steel);
+    margin:0 0 16px;
+  }
+  .disclaimer{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.65rem;
+    color:var(--steel);
+    line-height:1.5;
+    border-top:1px solid var(--paper-line);
+    padding-top:14px;
+    margin-top:18px;
+  }
+  .notice-block{
+    border:2px solid var(--fed-blue);
+    padding:20px 18px;
+    margin-bottom:18px;
+    position:relative;
+    text-align:center;
+    overflow:hidden;
+  }
+  .notice-block .notice-head{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.65rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--steel);
+    margin-bottom:6px;
+  }
+  .notice-block .tally-line{
+    font-family:'PT Serif',serif;
+    font-size:1.15rem;
+    margin:6px 0 14px;
+  }
+  .stamp{
+    display:inline-block;
+    font-family:'IBM Plex Mono',monospace;
+    font-weight:600;
+    font-size:clamp(1.1rem,5vw,1.5rem);
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    padding:10px 16px;
+    border:3px solid;
+    transform:rotate(-6deg);
+    mix-blend-mode:multiply;
+    opacity:0;
+  }
+  .stamp.show{ animation:stampFall 0.4s ease-out forwards; }
+  @keyframes stampFall{
+    0%{ transform:scale(2.4) rotate(-6deg); opacity:0; }
+    60%{ transform:scale(0.92) rotate(-6deg); opacity:1; }
+    100%{ transform:scale(1) rotate(-6deg); opacity:1; }
+  }
+  .stamp.pass{ color:var(--ink-green); border-color:var(--ink-green); }
+  .stamp.fail{ color:var(--ink-red); border-color:var(--ink-red); }
+  .btn-row{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+  .btn-row .next-btn{ margin-top:0; flex:1; min-width:150px; }
+  .hidden{ display:none !important; }
+  footer{
+    text-align:center;
+    padding:14px 10px 26px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.65rem;
+    color:var(--steel);
+  }
+  footer a{ color:var(--fed-blue); }
+</style>
+</head>
+<body>
+
+<header>
+  <span>AppADay <span class="tag">No. 059</span> — Civics Interview Practice</span>
+  <span style="display:flex;align-items:center;gap:10px;">
+    <button class="textsize-btn" id="textSizeBtn" type="button">A+</button>
+    <a href="https://augustineiacopelli.github.io/appaday/">&larr; Portfolio</a>
+  </span>
+</header>
+
+<main>
+  <div class="form-sheet">
+
+    <div class="letterhead">
+      <div class="agency">Independent Practice Tool &middot; Not a Government Product</div>
+      <h1>CIVICS INTERVIEW PRACTICE</h1>
+      <div class="form-code">Modeled on the Official USCIS Civics Questions, 2008 and 2025 Versions</div>
+    </div>
+
+    <div class="body-pad">
+
+      <div id="screen-start">
+        <p>This session simulates the civics portion of the naturalization interview. Choose which version of the test to practice, then begin. Questions are drawn fresh at random each time.</p>
+        <div class="btn-row" style="margin-bottom:16px;">
+          <button class="next-btn btn-secondary mode-btn" id="mode2008Btn" type="button" data-mode="2008">2008 Test &middot; 100 Questions</button>
+          <button class="next-btn btn-secondary mode-btn" id="mode2025Btn" type="button" data-mode="2025">2025 Test &middot; 128 Questions</button>
+        </div>
+        <p id="modeExplainer" style="font-size:0.9rem;"></p>
+        <div class="stats-line" id="statsLine"></div>
+        <button class="next-btn" id="startBtn">Begin Interview</button>
+        <div class="disclaimer">Questions are adapted from the publicly published USCIS civics questions and answers. This tool is an independent study aid and is not produced, reviewed, or endorsed by USCIS or the Department of Homeland Security. Applicants who filed Form N-400 before October 20, 2025 take the 2008 test, ten questions from a pool of 100, needing six correct to pass. Those who filed on or after that date take the 2025 test, twenty questions from an expanded pool of 128, needing twelve correct to pass. Officeholder-specific and personal questions (current President, Governor, Senators, Representative, state capital, and similar) are intentionally excluded from both banks since those answers change over time or depend on where you live; study those separately from current official sources before an actual interview.</div>
+      </div>
+
+      <div id="screen-quiz" class="hidden">
+        <div class="scorecard-row">
+          <span id="askedCount">Question 1 of up to 10</span>
+          <span id="tally">Correct 0 &middot; Incorrect 0</span>
+        </div>
+        <div class="section-label" id="sectionLabel"></div>
+        <div class="question" id="questionText"></div>
+        <div class="options" id="optionsWrap"></div>
+        <div class="answer-note" id="answerNote"></div>
+        <button class="next-btn hidden" id="nextBtn">Continue</button>
+      </div>
+
+      <div id="screen-result" class="hidden">
+        <div class="notice-block">
+          <div class="notice-head">Notice of Practice Interview Results</div>
+          <div class="tally-line" id="resultTally"></div>
+          <div class="stamp" id="stampMark"></div>
+        </div>
+        <p id="resultMessage"></p>
+        <div class="review-block hidden" id="reviewBlock">
+          <h3>Questions to Review</h3>
+          <div id="reviewList"></div>
+        </div>
+        <div class="btn-row">
+          <button class="next-btn" id="againBtn">Begin New Interview</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<footer>
+  Study aid based on the public USCIS civics questions &middot; <a href="https://augustineiacopelli.github.io/appaday/">augustineiacopelli.github.io/appaday</a>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  var BANK_2008 = [
+    // Principles of American Democracy
+    {s:"Principles of American Democracy", q:"What is the supreme law of the land?", a:["the Constitution","the Bill of Rights","the Declaration of Independence","the Federalist Papers"]},
+    {s:"Principles of American Democracy", q:"What does the Constitution do?", a:["Sets up the government and protects basic rights","Declares independence from Great Britain","Establishes the fifty states","Creates the two political parties"]},
+    {s:"Principles of American Democracy", q:"The idea of self-government is in the first three words of the Constitution. What are these words?", a:["We the People","In Order To","Life, Liberty, and","Congress shall make"]},
+    {s:"Principles of American Democracy", q:"What is an amendment?", a:["A change or addition to the Constitution","A veto by the President","A ruling by the Supreme Court","A state law"]},
+    {s:"Principles of American Democracy", q:"What do we call the first ten amendments to the Constitution?", a:["The Bill of Rights","The Preamble","The Articles of Confederation","The Federalist Papers"]},
+    {s:"Principles of American Democracy", q:"What is one right or freedom from the First Amendment?", a:["Freedom of speech","The right to bear arms","The right to a jury trial","Freedom from unreasonable search"]},
+    {s:"Principles of American Democracy", q:"How many amendments does the Constitution have?", a:["Twenty-seven","Ten","Twenty-one","Thirty-three"]},
+    {s:"Principles of American Democracy", q:"What did the Declaration of Independence do?", a:["Announced our independence from Great Britain","Created the U.S. Congress","Ended the Civil War","Established the Supreme Court"]},
+    {s:"Principles of American Democracy", q:"What are two rights in the Declaration of Independence?", a:["Life and liberty","Speech and religion","Voting and jury duty","Property and privacy"]},
+    {s:"Principles of American Democracy", q:"What is freedom of religion?", a:["You can practice any religion, or not practice one","Everyone must belong to a church","Only Christianity is protected by law","The government chooses a national religion"]},
+    {s:"Principles of American Democracy", q:"What is the economic system in the United States?", a:["A capitalist, or market, economy","A communist economy","A purely government-run economy","A barter economy"]},
+    {s:"Principles of American Democracy", q:"What is the \"rule of law\"?", a:["Everyone must follow the law, including leaders","Only citizens must follow the law","Laws only apply to elected officials","The President is above the law"]},
+
+    // System of Government
+    {s:"System of Government", q:"Name one branch or part of the government.", a:["Congress, the legislative branch","The Federal Reserve","The Postal Service","The National Guard"]},
+    {s:"System of Government", q:"What stops one branch of government from becoming too powerful?", a:["Checks and balances","The Bill of Rights","Federal elections","The Cabinet"]},
+    {s:"System of Government", q:"Who is in charge of the executive branch?", a:["The President","The Speaker of the House","The Chief Justice","The Vice President"]},
+    {s:"System of Government", q:"Who makes federal laws?", a:["Congress","The President alone","The Supreme Court","State legislatures"]},
+    {s:"System of Government", q:"What are the two parts of the U.S. Congress?", a:["The Senate and House of Representatives","The House and the Cabinet","The Senate and the Supreme Court","The Executive and Judicial branches"]},
+    {s:"System of Government", q:"How many U.S. Senators are there?", a:["One hundred","Fifty","Four hundred thirty-five","Nine"]},
+    {s:"System of Government", q:"We elect a U.S. Senator for how many years?", a:["Six years","Two years","Four years","Ten years"]},
+    {s:"System of Government", q:"The House of Representatives has how many voting members?", a:["Four hundred thirty-five","One hundred","Fifty","Two hundred"]},
+    {s:"System of Government", q:"We elect a U.S. Representative for how many years?", a:["Two years","Four years","Six years","Eight years"]},
+    {s:"System of Government", q:"Who does a U.S. Senator represent?", a:["All people of their state","Only their political party","Only the cities in their state","Only the counties that elected them"]},
+    {s:"System of Government", q:"Why do some states have more Representatives than other states?", a:["Because those states have more people","Because those states are larger in land area","Because those states joined the Union earlier","Because those states have more Senators"]},
+    {s:"System of Government", q:"We elect a President for how many years?", a:["Four years","Six years","Two years","Eight years"]},
+    {s:"System of Government", q:"In what month do we vote for President?", a:["November","January","September","July"]},
+    {s:"System of Government", q:"If the President can no longer serve, who becomes President?", a:["The Vice President","The Speaker of the House","The Chief Justice","The Secretary of State"]},
+    {s:"System of Government", q:"If both the President and the Vice President can no longer serve, who becomes President?", a:["The Speaker of the House","The Chief Justice","The Senate Majority Leader","The Secretary of State"]},
+    {s:"System of Government", q:"Who is the Commander in Chief of the military?", a:["The President","The Secretary of Defense","The Speaker of the House","The Chief Justice"]},
+    {s:"System of Government", q:"Who signs bills to become laws?", a:["The President","The Speaker of the House","The Chief Justice","The Vice President"]},
+    {s:"System of Government", q:"Who vetoes bills?", a:["The President","The Speaker of the House","The Senate Majority Leader","The Chief Justice"]},
+    {s:"System of Government", q:"What does the President's Cabinet do?", a:["Advises the President","Writes federal laws","Reviews Supreme Court rulings","Elects the Vice President"]},
+    {s:"System of Government", q:"What are two Cabinet-level positions?", a:["Secretary of State and Secretary of Defense","Speaker and Majority Leader","Chief Justice and Attorney General's clerk","Governor and Lieutenant Governor"]},
+    {s:"System of Government", q:"What does the judicial branch do?", a:["Reviews and explains laws, and resolves disputes","Writes the federal budget","Commands the armed forces","Negotiates treaties with other nations"]},
+    {s:"System of Government", q:"What is the highest court in the United States?", a:["The Supreme Court","The Court of Appeals","The District Court","The Federal Circuit"]},
+    {s:"System of Government", q:"How many justices are on the Supreme Court?", a:["Nine","Seven","Eleven","Twelve"]},
+    {s:"System of Government", q:"Under our Constitution, some powers belong to the federal government. What is one power of the federal government?", a:["To declare war","To issue driver's licenses","To provide public schooling","To run local police departments"]},
+    {s:"System of Government", q:"Under our Constitution, some powers belong to the states. What is one power of the states?", a:["To provide schooling and education","To declare war","To print money","To make treaties with other countries"]},
+    {s:"System of Government", q:"What are the two major political parties in the United States?", a:["Democratic and Republican","Federalist and Whig","Liberal and Conservative","Labor and Union"]},
+
+    // Rights and Responsibilities
+    {s:"Rights and Responsibilities", q:"There are four amendments to the Constitution about who can vote. Describe one of them.", a:["Citizens eighteen and older can vote","Only property owners can vote","Only men can vote","Only citizens over thirty can vote"]},
+    {s:"Rights and Responsibilities", q:"What is one responsibility that is only for United States citizens?", a:["Serving on a jury","Paying taxes","Obeying the law","Attending public school"]},
+    {s:"Rights and Responsibilities", q:"Name one right only for United States citizens.", a:["The right to vote in a federal election","The right to freedom of speech","The right to a fair trial","The right to own property"]},
+    {s:"Rights and Responsibilities", q:"What are two rights of everyone living in the United States?", a:["Freedom of speech and freedom of worship","The right to vote and the right to run for office","The right to a passport and a Social Security number","The right to serve on a jury and hold federal office"]},
+    {s:"Rights and Responsibilities", q:"What do we show loyalty to when we say the Pledge of Allegiance?", a:["The United States and the flag","The President","The Constitution alone","Congress"]},
+    {s:"Rights and Responsibilities", q:"What is one promise you make when you become a United States citizen?", a:["To obey the laws of the United States","To join the U.S. military","To renounce all religious beliefs","To vote in every election"]},
+    {s:"Rights and Responsibilities", q:"How old do citizens have to be to vote for President?", a:["Eighteen and older","Sixteen and older","Twenty-one and older","Twenty-five and older"]},
+    {s:"Rights and Responsibilities", q:"What are two ways that Americans can participate in their democracy?", a:["Vote and join a political party","Serve in the Cabinet and appoint judges","Command the military and sign treaties","Write Supreme Court opinions and veto bills"]},
+    {s:"Rights and Responsibilities", q:"When is the last day you can send in federal income tax forms?", a:["April 15","January 1","July 4","December 31"]},
+    {s:"Rights and Responsibilities", q:"When must all men register for the Selective Service?", a:["Between eighteen and twenty-six","Between sixteen and eighteen","At exactly twenty-one","Between thirty and forty"]},
+
+    // Colonial Period and Independence
+    {s:"Colonial Period and Independence", q:"What is one reason colonists came to America?", a:["Freedom and religious liberty","To join the Continental Army","To attend the Constitutional Convention","To vote in federal elections"]},
+    {s:"Colonial Period and Independence", q:"Who lived in America before the Europeans arrived?", a:["American Indians","The Pilgrims","The Spanish colonists","The Founding Fathers"]},
+    {s:"Colonial Period and Independence", q:"What group of people was taken to America and sold as slaves?", a:["Africans","American Indians","Indentured servants from Europe","Prisoners of war from France"]},
+    {s:"Colonial Period and Independence", q:"Why did the colonists fight the British?", a:["Because of high taxes without representation","Because they wanted a king of their own","Because of a dispute over the Louisiana Territory","Because France demanded independence for them"]},
+    {s:"Colonial Period and Independence", q:"Who wrote the Declaration of Independence?", a:["Thomas Jefferson","George Washington","Benjamin Franklin","James Madison"]},
+    {s:"Colonial Period and Independence", q:"When was the Declaration of Independence adopted?", a:["July 4, 1776","September 17, 1787","December 15, 1791","July 4, 1789"]},
+    {s:"Colonial Period and Independence", q:"There were 13 original states. Name one.", a:["Virginia","Ohio","Texas","California"]},
+    {s:"Colonial Period and Independence", q:"What happened at the Constitutional Convention?", a:["The Constitution was written","The Declaration of Independence was signed","The Civil War ended","The Bill of Rights was repealed"]},
+    {s:"Colonial Period and Independence", q:"When was the Constitution written?", a:["1787","1776","1791","1801"]},
+    {s:"Colonial Period and Independence", q:"The Federalist Papers supported passage of the U.S. Constitution. Name one of the writers.", a:["James Madison","Thomas Jefferson","George Washington","Patrick Henry"]},
+    {s:"Colonial Period and Independence", q:"What is one thing Benjamin Franklin is famous for?", a:["He was the first Postmaster General of the United States","He was the first President","He wrote the Declaration of Independence alone","He led the Continental Army"]},
+    {s:"Colonial Period and Independence", q:"Who is the \"Father of Our Country\"?", a:["George Washington","Thomas Jefferson","Benjamin Franklin","John Adams"]},
+    {s:"Colonial Period and Independence", q:"Who was the first President of the United States?", a:["George Washington","John Adams","Thomas Jefferson","James Madison"]},
+
+    // 1800s
+    {s:"The 1800s", q:"What territory did the United States buy from France in 1803?", a:["The Louisiana Territory","The Oregon Territory","Florida","Texas"]},
+    {s:"The 1800s", q:"Name one war fought by the United States in the 1800s.", a:["The Civil War","World War I","The Vietnam War","The Persian Gulf War"]},
+    {s:"The 1800s", q:"Name the U.S. war between the North and the South.", a:["The Civil War","The War of 1812","The Spanish-American War","The Revolutionary War"]},
+    {s:"The 1800s", q:"Name one problem that led to the Civil War.", a:["Slavery","Taxation without representation","A dispute over the Louisiana Purchase","Conflict with Great Britain"]},
+    {s:"The 1800s", q:"What was one important thing that Abraham Lincoln did?", a:["He freed the slaves","He wrote the Declaration of Independence","He purchased the Louisiana Territory","He led the Continental Army"]},
+    {s:"The 1800s", q:"What did the Emancipation Proclamation do?", a:["It freed the slaves in the Confederacy","It ended the Revolutionary War","It created the Bill of Rights","It established the Supreme Court"]},
+    {s:"The 1800s", q:"What did Susan B. Anthony do?", a:["She fought for women's rights","She led the Union Army","She wrote the Constitution","She was the first First Lady"]},
+
+    // Recent American History and Other Important Historical Information
+    {s:"Recent American History", q:"Name one war fought by the United States in the 1900s.", a:["World War II","The Civil War","The Revolutionary War","The War of 1812"]},
+    {s:"Recent American History", q:"Who was President during World War I?", a:["Woodrow Wilson","Franklin Roosevelt","Abraham Lincoln","Theodore Roosevelt"]},
+    {s:"Recent American History", q:"Who was President during the Great Depression and World War II?", a:["Franklin Roosevelt","Woodrow Wilson","Harry Truman","Dwight Eisenhower"]},
+    {s:"Recent American History", q:"Who did the United States fight in World War II?", a:["Japan, Germany, and Italy","Great Britain and France","The Soviet Union","Mexico and Spain"]},
+    {s:"Recent American History", q:"Before he was President, Eisenhower was a general. What war was he in?", a:["World War II","World War I","The Korean War","The Vietnam War"]},
+    {s:"Recent American History", q:"During the Cold War, what was the main concern of the United States?", a:["Communism","Terrorism","The Louisiana Purchase","Colonial taxation"]},
+    {s:"Recent American History", q:"What movement tried to end racial discrimination?", a:["The civil rights movement","The Progressive movement","The Abolitionist Congress","The Suffrage Congress"]},
+    {s:"Recent American History", q:"What did Martin Luther King, Jr. do?", a:["He fought for civil rights","He was a President of the United States","He wrote the Emancipation Proclamation","He led the Union Army"]},
+    {s:"Recent American History", q:"What major event happened on September 11, 2001, in the United States?", a:["Terrorists attacked the United States","The Cold War ended","The Civil War began","The Louisiana Purchase was signed"]},
+    {s:"Recent American History", q:"Name one American Indian tribe in the United States.", a:["Cherokee","Pilgrim","Puritan","Confederate"]},
+
+    // Geography
+    {s:"Geography", q:"Name one of the two longest rivers in the United States.", a:["The Mississippi River","The Colorado River","The Rio Grande","The Hudson River"]},
+    {s:"Geography", q:"What ocean is on the West Coast of the United States?", a:["The Pacific Ocean","The Atlantic Ocean","The Gulf of Mexico","The Arctic Ocean"]},
+    {s:"Geography", q:"What ocean is on the East Coast of the United States?", a:["The Atlantic Ocean","The Pacific Ocean","The Gulf of Mexico","The Indian Ocean"]},
+    {s:"Geography", q:"Name one U.S. territory.", a:["Puerto Rico","Ohio","Vermont","Nevada"]},
+    {s:"Geography", q:"Name one state that borders Canada.", a:["Maine","Texas","Florida","Arizona"]},
+    {s:"Geography", q:"Name one state that borders Mexico.", a:["Texas","Maine","Ohio","New York"]},
+    {s:"Geography", q:"What is the capital of the United States?", a:["Washington, D.C.","New York City","Philadelphia","Boston"]},
+    {s:"Geography", q:"Where is the Statue of Liberty located?", a:["New York Harbor","Washington, D.C.","Boston Harbor","Philadelphia"]},
+
+    // Symbols
+    {s:"Symbols", q:"Why does the flag have 13 stripes?", a:["Because there were 13 original colonies","Because 13 states border an ocean","Because the first Congress had 13 members","Because 13 amendments make up the Bill of Rights"]},
+    {s:"Symbols", q:"Why does the flag have 50 stars?", a:["Because there is one star for each state","Because there were 50 original colonies","Because 50 amendments were proposed","Because it marks 50 years of independence"]},
+    {s:"Symbols", q:"What is the name of the national anthem?", a:["The Star-Spangled Banner","America the Beautiful","My Country 'Tis of Thee","God Bless America"]},
+
+    // Holidays
+    {s:"Holidays", q:"When do we celebrate Independence Day?", a:["July 4","June 14","September 17","November 11"]},
+    {s:"Holidays", q:"Name one national U.S. holiday.", a:["Thanksgiving","Bastille Day","Boxing Day","Guy Fawkes Day"]}
+  ];
+
+  var BANK_2025 = [
+    // Principles of American Democracy
+    {s:"Principles of American Democracy", q:"What is the form of government of the United States?", a:["Republic","Monarchy","Direct democracy","Oligarchy"]},
+    {s:"Principles of American Democracy", q:"What is the supreme law of the land?", a:["The Constitution","The Bill of Rights","The Declaration of Independence","Federal statutes"]},
+    {s:"Principles of American Democracy", q:"Name one thing the U.S. Constitution does.", a:["Forms the government","Declares war","Elects the President","Creates political parties"]},
+    {s:"Principles of American Democracy", q:"The U.S. Constitution starts with the words \"We the People.\" What does \"We the People\" mean?", a:["Self-government","Rule by property owners","Rule by a monarchy","Rule by the states alone"]},
+    {s:"Principles of American Democracy", q:"How are changes made to the U.S. Constitution?", a:["Amendments","Executive orders","Supreme Court rulings","State referendums"]},
+    {s:"Principles of American Democracy", q:"What does the Bill of Rights protect?", a:["Rights of people living in the United States","Only the rights of citizens who vote","Only property rights","Only the rights of Congress"]},
+    {s:"Principles of American Democracy", q:"How many amendments does the U.S. Constitution have?", a:["Twenty-seven","Ten","Twenty-one","Thirty-three"]},
+    {s:"Principles of American Democracy", q:"Why is the Declaration of Independence important?", a:["It says America is free from British control","It created the three branches of government","It ended the Civil War","It established the Bill of Rights"]},
+    {s:"Principles of American Democracy", q:"What founding document said the American colonies were free from Britain?", a:["The Declaration of Independence","The Constitution","The Federalist Papers","The Articles of Confederation"]},
+    {s:"Principles of American Democracy", q:"Name two important ideas from the Declaration of Independence and the U.S. Constitution.", a:["Equality and liberty","Taxation and tariffs","Monarchy and nobility","Segregation and states' rights"]},
+    {s:"Principles of American Democracy", q:"The words \"Life, Liberty, and the pursuit of Happiness\" are in what founding document?", a:["The Declaration of Independence","The Constitution","The Bill of Rights","The Gettysburg Address"]},
+    {s:"Principles of American Democracy", q:"What is the economic system of the United States?", a:["Free market economy","Command economy","State-controlled economy","Barter economy"]},
+    {s:"Principles of American Democracy", q:"What is the rule of law?", a:["Everyone must follow the law","Only citizens must follow the law","The President is above the law","Laws only apply to Congress"]},
+    {s:"Principles of American Democracy", q:"Many documents influenced the U.S. Constitution. Name one.", a:["The Declaration of Independence","The Monroe Doctrine","The Emancipation Proclamation","The Gettysburg Address"]},
+
+    // System of Government
+    {s:"System of Government", q:"There are three branches of government. Why?", a:["Checks and balances","To save money","To speed up lawmaking","To follow British tradition"]},
+    {s:"System of Government", q:"Name the three branches of government.", a:["Congress, the President, and the courts","Federal, state, and local","Senate, House, and Cabinet","Military, civil, and judicial"]},
+    {s:"System of Government", q:"The President of the United States is in charge of which branch of government?", a:["The executive branch","The legislative branch","The judicial branch","The National Guard"]},
+    {s:"System of Government", q:"What part of the federal government writes laws?", a:["Congress","The President","The Supreme Court","The Cabinet"]},
+    {s:"System of Government", q:"What are the two parts of the U.S. Congress?", a:["The Senate and House of Representatives","The House and the Cabinet","The Senate and the Supreme Court","The Executive and Judicial branches"]},
+    {s:"System of Government", q:"Name one power of the U.S. Congress.", a:["Writes laws","Vetoes laws","Appoints judges alone","Commands the military"]},
+    {s:"System of Government", q:"How many U.S. Senators are there?", a:["One hundred","Fifty","Four hundred thirty-five","Nine"]},
+    {s:"System of Government", q:"How long is a term for a U.S. Senator?", a:["Six years","Two years","Four years","Ten years"]},
+    {s:"System of Government", q:"How many voting members are there in the House of Representatives?", a:["Four hundred thirty-five","One hundred","Fifty","Five hundred thirty-five"]},
+    {s:"System of Government", q:"How long is a term for a member of the House of Representatives?", a:["Two years","Four years","Six years","Eight years"]},
+    {s:"System of Government", q:"Why do U.S. representatives serve shorter terms than U.S. Senators?", a:["To more closely follow public opinion","To save money on elections","Because the Constitution requires rotation","To match Presidential terms"]},
+    {s:"System of Government", q:"How many senators does each state have?", a:["Two","One","Three","It depends on population"]},
+    {s:"System of Government", q:"Why does each state have two senators?", a:["Equal representation","Historical accident","Based on population","Based on land area"]},
+    {s:"System of Government", q:"Who does a U.S. Senator represent?", a:["People of their state","Only their political party","Only the capital city","Only the counties that elected them"]},
+    {s:"System of Government", q:"Who elects U.S. senators?", a:["Citizens from their state","The state legislature only","The Electoral College","The Governor"]},
+    {s:"System of Government", q:"Who does a member of the House of Representatives represent?", a:["People in their district","The whole state","Only their party","The Governor"]},
+    {s:"System of Government", q:"Who elects members of the House of Representatives?", a:["Citizens from their district","The state legislature","The Senate","The Electoral College"]},
+    {s:"System of Government", q:"Some states have more representatives than other states. Why?", a:["Because they have more people","Because they are larger in area","Because they joined the Union earlier","Because they have more Senators"]},
+    {s:"System of Government", q:"The President of the United States is elected for how many years?", a:["Four years","Six years","Two years","Eight years"]},
+    {s:"System of Government", q:"The President of the United States can serve only two terms. Why?", a:["Because of the 22nd Amendment","Because of the 19th Amendment","Because of tradition only","Because of the Bill of Rights"]},
+    {s:"System of Government", q:"If the president can no longer serve, who becomes president?", a:["The Vice President","The Speaker of the House","The Chief Justice","The Secretary of State"]},
+    {s:"System of Government", q:"Name one power of the president.", a:["Signs bills into law","Writes the federal budget alone","Declares war unilaterally","Elects Supreme Court justices"]},
+    {s:"System of Government", q:"Who is the Commander in Chief of the U.S. military?", a:["The President","The Secretary of Defense","The Speaker of the House","The Chief Justice"]},
+    {s:"System of Government", q:"Who signs bills to become laws?", a:["The President","The Speaker of the House","The Chief Justice","The Vice President"]},
+    {s:"System of Government", q:"Who vetoes bills?", a:["The President","The Speaker of the House","The Senate Majority Leader","The Chief Justice"]},
+    {s:"System of Government", q:"Who appoints federal judges?", a:["The President","The Speaker of the House","The Senate alone","The Chief Justice"]},
+    {s:"System of Government", q:"The executive branch has many parts. Name one.", a:["The President","The Senate","The Supreme Court","The House of Representatives"]},
+    {s:"System of Government", q:"What does the President's Cabinet do?", a:["Advises the President","Writes federal laws","Reviews Supreme Court rulings","Elects the Vice President"]},
+    {s:"System of Government", q:"What are two cabinet-level positions?", a:["Secretary of State and Secretary of Transportation","Speaker and Majority Leader","Chief Justice and Attorney General's clerk","Governor and Lieutenant Governor"]},
+    {s:"System of Government", q:"Why is the Electoral College important?", a:["It decides who is elected president","It writes federal laws","It confirms Supreme Court justices","It commands the military"]},
+
+    // Judicial Branch and Federalism
+    {s:"Judicial Branch and Federalism", q:"What is one part of the judicial branch?", a:["The Supreme Court","The Senate","The Cabinet","The Federal Reserve"]},
+    {s:"Judicial Branch and Federalism", q:"What does the judicial branch do?", a:["Reviews and explains laws","Writes the federal budget","Commands the armed forces","Negotiates treaties"]},
+    {s:"Judicial Branch and Federalism", q:"What is the highest court in the United States?", a:["The Supreme Court","The Court of Appeals","The District Court","The Federal Circuit"]},
+    {s:"Judicial Branch and Federalism", q:"How many seats are on the Supreme Court?", a:["Nine","Seven","Eleven","Twelve"]},
+    {s:"Judicial Branch and Federalism", q:"How many Supreme Court justices are usually needed to decide a case?", a:["Five","Six","Nine","Four"]},
+    {s:"Judicial Branch and Federalism", q:"How long do Supreme Court justices serve?", a:["For life","Ten years","Twenty years","Until age seventy"]},
+    {s:"Judicial Branch and Federalism", q:"Supreme Court justices serve for life. Why?", a:["To be independent","To save money","Because the Constitution requires elections","To match Presidential terms"]},
+    {s:"Judicial Branch and Federalism", q:"Name one power that is only for the federal government.", a:["Print paper money","Issue driver's licenses","Provide public schooling","Run local police departments"]},
+    {s:"Judicial Branch and Federalism", q:"Name one power that is only for the states.", a:["Give a driver's license","Declare war","Print money","Make treaties"]},
+    {s:"Judicial Branch and Federalism", q:"What is the purpose of the 10th Amendment?", a:["Powers not given to the federal government belong to the states or the people","It protects freedom of speech","It creates the Bill of Rights","It establishes the Supreme Court"]},
+
+    // Rights and Responsibilities
+    {s:"Rights and Responsibilities", q:"There are four amendments to the U.S. Constitution about who can vote. Describe one of them.", a:["Any citizen can vote","Only property owners can vote","Only men can vote","Only citizens over thirty can vote"]},
+    {s:"Rights and Responsibilities", q:"Who can vote in federal elections, run for federal office, and serve on a jury in the United States?", a:["Citizens","Permanent residents","Any adult living in the U.S.","Taxpayers only"]},
+    {s:"Rights and Responsibilities", q:"What are three rights of everyone living in the United States?", a:["Freedom of speech, freedom of religion, and freedom of assembly","The right to vote, run for office, and serve on a jury","The right to a passport, a driver's license, and a Social Security number","The right to hold federal office, command the military, and appoint judges"]},
+    {s:"Rights and Responsibilities", q:"What do we show loyalty to when we say the Pledge of Allegiance?", a:["The United States and the flag","The President","The Constitution alone","Congress"]},
+    {s:"Rights and Responsibilities", q:"Name two promises that new citizens make in the Oath of Allegiance.", a:["Obey the laws of the United States and be loyal to the United States","Serve in the military and pay double taxes","Vote in every election and hold office","Renounce all other beliefs and travel abroad"]},
+    {s:"Rights and Responsibilities", q:"How can people become United States citizens?", a:["Naturalize","Only by birth","By owning property","By marriage alone"]},
+    {s:"Rights and Responsibilities", q:"What are two examples of civic participation in the United States?", a:["Vote and run for office","Serve in the Cabinet and appoint judges","Command the military and sign treaties","Write Supreme Court opinions and veto bills"]},
+    {s:"Rights and Responsibilities", q:"What is one way Americans can serve their country?", a:["Vote","Only by joining the military","Only by paying extra taxes","Only by running for President"]},
+    {s:"Rights and Responsibilities", q:"Why is it important to pay federal taxes?", a:["Required by law","An optional civic gesture","Only required of businesses","Only required of federal employees"]},
+    {s:"Rights and Responsibilities", q:"It is important for all men age 18 through 25 to register for the Selective Service. Name one reason why.", a:["Required by law","Optional for most men","Only required of citizens over forty","Only required during declared wars"]},
+
+    // Colonial Period and Independence
+    {s:"Colonial Period and Independence", q:"The colonists came to America for many reasons. Name one.", a:["Freedom","To join the Continental Congress","To attend the Constitutional Convention","To vote in elections"]},
+    {s:"Colonial Period and Independence", q:"Who lived in America before the Europeans arrived?", a:["Native Americans","The Pilgrims","Spanish colonists","The Founding Fathers"]},
+    {s:"Colonial Period and Independence", q:"What group of people was taken and sold as slaves?", a:["Africans","American Indians","Indentured servants from Europe","Prisoners of war from France"]},
+    {s:"Colonial Period and Independence", q:"What war did the Americans fight to win independence from Britain?", a:["The American Revolution","The Civil War","The War of 1812","The French and Indian War"]},
+    {s:"Colonial Period and Independence", q:"Name one reason why the Americans declared independence from Britain.", a:["High taxes","A dispute over the Louisiana Territory","Religious persecution by France","A disagreement with Spain"]},
+    {s:"Colonial Period and Independence", q:"Who wrote the Declaration of Independence?", a:["Thomas Jefferson","George Washington","Benjamin Franklin","James Madison"]},
+    {s:"Colonial Period and Independence", q:"When was the Declaration of Independence adopted?", a:["July 4, 1776","September 17, 1787","December 15, 1791","July 4, 1789"]},
+    {s:"Colonial Period and Independence", q:"The American Revolution had many important events. Name one.", a:["The Declaration of Independence","The Louisiana Purchase","The Emancipation Proclamation","The Missouri Compromise"]},
+    {s:"Colonial Period and Independence", q:"There were 13 original states. Name one.", a:["Massachusetts","Ohio","Texas","California"]},
+    {s:"Colonial Period and Independence", q:"What founding document was written in 1787?", a:["The Constitution","The Declaration of Independence","The Bill of Rights","The Federalist Papers"]},
+    {s:"Colonial Period and Independence", q:"The Federalist Papers supported the passage of the U.S. Constitution. Name one of the writers.", a:["James Madison","Thomas Jefferson","George Washington","Patrick Henry"]},
+    {s:"Colonial Period and Independence", q:"Why were the Federalist Papers important?", a:["They helped people understand the Constitution","They declared independence from Britain","They ended the Civil War","They freed the slaves"]},
+    {s:"Colonial Period and Independence", q:"Benjamin Franklin is famous for many things. Name one.", a:["U.S. diplomat","First President","Wrote the Declaration of Independence alone","Led the Continental Army"]},
+    {s:"Colonial Period and Independence", q:"George Washington is famous for many things. Name one.", a:["First President of the United States","Wrote the Declaration of Independence","Third President","Fought in the Civil War"]},
+    {s:"Colonial Period and Independence", q:"Thomas Jefferson is famous for many things. Name one.", a:["Writer of the Declaration of Independence","First President","Led the Union Army","General in World War II"]},
+    {s:"Colonial Period and Independence", q:"James Madison is famous for many things. Name one.", a:["One of the writers of the Federalist Papers","First President","Wrote the Declaration alone","Led the Confederacy"]},
+    {s:"Colonial Period and Independence", q:"Alexander Hamilton is famous for many things. Name one.", a:["One of the writers of the Federalist Papers","First President","Chief Justice","Wrote the Emancipation Proclamation"]},
+
+    // The 1800s
+    {s:"The 1800s", q:"What territory did the United States buy from France in 1803?", a:["Louisiana","Oregon","Florida","Texas"]},
+    {s:"The 1800s", q:"Name one war fought by the United States in the 1800s.", a:["The Civil War","World War I","The Vietnam War","The Persian Gulf War"]},
+    {s:"The 1800s", q:"Name the U.S. war between the North and the South.", a:["The Civil War","The War of 1812","The Spanish-American War","The Revolutionary War"]},
+    {s:"The 1800s", q:"The Civil War had many important events. Name one.", a:["The Emancipation Proclamation","The Louisiana Purchase","The Missouri Compromise","The Boston Tea Party"]},
+    {s:"The 1800s", q:"Abraham Lincoln is famous for many things. Name one.", a:["He freed the slaves","He wrote the Constitution","He led the Continental Army","He purchased the Louisiana Territory"]},
+    {s:"The 1800s", q:"What did the Emancipation Proclamation do?", a:["Freed the slaves","Ended the Revolutionary War","Created the Bill of Rights","Established the Supreme Court"]},
+    {s:"The 1800s", q:"What U.S. war ended slavery?", a:["The Civil War","The Revolutionary War","World War I","The War of 1812"]},
+    {s:"The 1800s", q:"What amendment says all persons born or naturalized in the United States, and subject to its jurisdiction, are U.S. citizens?", a:["The 14th Amendment","The 13th Amendment","The 15th Amendment","The 19th Amendment"]},
+    {s:"The 1800s", q:"When did all men get the right to vote?", a:["After the Civil War","After the Revolutionary War","After World War I","After World War II"]},
+    {s:"The 1800s", q:"Name one leader of the women's rights movement in the 1800s.", a:["Susan B. Anthony","Eleanor Roosevelt","Rosa Parks","Harriet Tubman"]},
+
+    // Recent American History
+    {s:"Recent American History", q:"Name one war fought by the United States in the 1900s.", a:["World War I","The Civil War","The Revolutionary War","The War of 1812"]},
+    {s:"Recent American History", q:"Why did the U.S. enter World War I?", a:["To support the allied powers","To stop the Great Depression","To end slavery","To purchase the Louisiana Territory"]},
+    {s:"Recent American History", q:"When did all women get the right to vote?", a:["After World War I","After the Civil War","After World War II","After the Cold War"]},
+    {s:"Recent American History", q:"What was the Great Depression?", a:["The longest economic recession in modern history","A war between the U.S. and Britain","A period of high inflation only","A period of rapid economic growth"]},
+    {s:"Recent American History", q:"When did the Great Depression start?", a:["The stock market crash of 1929","The end of World War I","The start of World War II","The Civil War"]},
+    {s:"Recent American History", q:"Who was President during the Great Depression and World War II?", a:["Franklin Roosevelt","Woodrow Wilson","Harry Truman","Dwight Eisenhower"]},
+    {s:"Recent American History", q:"Why did the United States enter World War II?", a:["To support the allied powers","To stop the Great Depression alone","To end the Cold War","To gain new territory"]},
+    {s:"Recent American History", q:"Dwight Eisenhower is famous for many things. Name one.", a:["General during World War II","President during the Civil War","Leader of the civil rights movement","Writer of the Federalist Papers"]},
+    {s:"Recent American History", q:"Who was the United States' main rival during the Cold War?", a:["Russia","Germany","Japan","France"]},
+    {s:"Recent American History", q:"During the Cold War, what was one main concern of the United States?", a:["Communism","Terrorism","Colonial taxation","The Great Depression"]},
+    {s:"Recent American History", q:"Why did the United States enter the Korean War?", a:["To stop the spread of communism","To free the slaves","To support the allied powers in World War II","To respond to September 11"]},
+    {s:"Recent American History", q:"Why did the United States enter the Vietnam War?", a:["To stop the spread of communism","To support the allied powers in World War I","To end the Great Depression","To respond to the Persian Gulf crisis"]},
+    {s:"Recent American History", q:"What did the civil rights movement do?", a:["Fought to end racial discrimination","Fought for independence from Britain","Ended the Cold War","Established the Supreme Court"]},
+    {s:"Recent American History", q:"Martin Luther King, Jr. is famous for many things. Name one.", a:["Fought for civil rights","President during World War II","Wrote the Declaration of Independence","Led the Union Army"]},
+    {s:"Recent American History", q:"Why did the United States enter the Persian Gulf War?", a:["To force the Iraqi military from Kuwait","To stop the spread of communism","To respond to September 11","To support the allied powers in World War II"]},
+    {s:"Recent American History", q:"What major event happened on September 11, 2001, in the United States?", a:["Terrorists attacked the United States","The Cold War ended","The Civil War began","The stock market crashed"]},
+    {s:"Recent American History", q:"Name one U.S. military conflict after the September 11, 2001 attacks.", a:["The war in Afghanistan","The Korean War","The Vietnam War","The Persian Gulf War"]},
+    {s:"Recent American History", q:"Name one American Indian tribe in the United States.", a:["Hopi","Pilgrim","Puritan","Confederate"]},
+    {s:"Recent American History", q:"Name one example of an American innovation.", a:["The airplane","The printing press","The steam engine","The telegraph"]},
+
+    // Geography, Symbols, and Holidays
+    {s:"Geography, Symbols, and Holidays", q:"What is the capital of the United States?", a:["Washington, D.C.","New York City","Philadelphia","Boston"]},
+    {s:"Geography, Symbols, and Holidays", q:"Where is the Statue of Liberty?", a:["New York Harbor","Washington, D.C.","Boston Harbor","Philadelphia"]},
+    {s:"Geography, Symbols, and Holidays", q:"Why does the flag have 13 stripes?", a:["Because there were 13 original colonies","Because 13 amendments make up the Bill of Rights","Because 13 founding fathers signed the Constitution","Because the Revolution lasted 13 years"]},
+    {s:"Geography, Symbols, and Holidays", q:"Why does the flag have 50 stars?", a:["Because there are 50 states","Because there were 50 original colonies","Because 50 amendments were proposed","Because it marks 50 years of independence"]},
+    {s:"Geography, Symbols, and Holidays", q:"What is the name of the national anthem?", a:["The Star-Spangled Banner","America the Beautiful","My Country 'Tis of Thee","God Bless America"]},
+    {s:"Geography, Symbols, and Holidays", q:"The Nation's first motto was \"E Pluribus Unum.\" What does that mean?", a:["Out of many, one","In God we trust","One nation under God","Liberty and justice for all"]},
+    {s:"Geography, Symbols, and Holidays", q:"What is Independence Day?", a:["The country's birthday","A day to honor veterans","A day to honor fallen soldiers","The first day of the new year"]},
+    {s:"Geography, Symbols, and Holidays", q:"Name three national U.S. holidays.", a:["Thanksgiving, Christmas, and New Year's Day","Bastille Day, Boxing Day, and Guy Fawkes Day","May Day, Remembrance Day, and Victoria Day","Canada Day, Columbus Day, and Bastille Day"]},
+    {s:"Geography, Symbols, and Holidays", q:"What is Memorial Day?", a:["A holiday to honor soldiers who died in military service","A holiday to honor all living veterans","The country's birthday","A federal tax deadline"]},
+    {s:"Geography, Symbols, and Holidays", q:"What is Veterans Day?", a:["A holiday to honor people who served in the military","A holiday to honor only soldiers who died in service","The country's birthday","A federal tax deadline"]}
+  ];
+
+  function shuffle(arr){
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--){
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = a[i]; a[i] = a[j]; a[j] = tmp;
+    }
+    return a;
+  }
+
+  var MODES = {
+    "2008": {label:"2008 Test", pool:BANK_2008, ask:10, passAt:6, failAt:5, poolSize:100, note:"Ten questions from a pool of 100. Answer six correctly to pass; five incorrect ends the interview."},
+    "2025": {label:"2025 Test", pool:BANK_2025, ask:20, passAt:12, failAt:9, poolSize:128, note:"Twenty questions from a pool of 128. Answer twelve correctly to pass; nine incorrect ends the interview."}
+  };
+
+  var state = {
+    mode: "2008",
+    session: [],
+    index: 0,
+    correct: 0,
+    incorrect: 0,
+    locked: false,
+    missed: []
+  };
+
+  var STATS_KEY_PREFIX = "civicsPracticeStats_";
+
+  function loadStats(){
+    try {
+      var raw = window.localStorage.getItem(STATS_KEY_PREFIX + state.mode);
+      if (!raw) return {sessions:0, best:0, bestAsked:0};
+      var parsed = JSON.parse(raw);
+      if (typeof parsed.sessions !== "number") return {sessions:0, best:0, bestAsked:0};
+      return parsed;
+    } catch (e) {
+      return {sessions:0, best:0, bestAsked:0};
+    }
+  }
+
+  function saveStats(stats){
+    try {
+      window.localStorage.setItem(STATS_KEY_PREFIX + state.mode, JSON.stringify(stats));
+    } catch (e) {
+      // storage unavailable, continue without persistence
+    }
+  }
+
+  function renderStatsLine(){
+    var statsEl = document.getElementById("statsLine");
+    var stats = loadStats();
+    if (stats.sessions === 0){
+      statsEl.textContent = "No " + MODES[state.mode].label + " sessions recorded yet on this device.";
+    } else {
+      statsEl.textContent = MODES[state.mode].label + " sessions completed: " + stats.sessions + ". Best result: " + stats.best + " of " + stats.bestAsked + " correct.";
+    }
+  }
+
+  var screenStart = document.getElementById("screen-start");
+  var screenQuiz = document.getElementById("screen-quiz");
+  var screenResult = document.getElementById("screen-result");
+  var startBtn = document.getElementById("startBtn");
+  var nextBtn = document.getElementById("nextBtn");
+  var againBtn = document.getElementById("againBtn");
+  var questionText = document.getElementById("questionText");
+  var optionsWrap = document.getElementById("optionsWrap");
+  var answerNote = document.getElementById("answerNote");
+  var askedCount = document.getElementById("askedCount");
+  var tally = document.getElementById("tally");
+  var sectionLabel = document.getElementById("sectionLabel");
+
+  function showScreen(name){
+    screenStart.classList.add("hidden");
+    screenQuiz.classList.add("hidden");
+    screenResult.classList.add("hidden");
+    if (name === "start") screenStart.classList.remove("hidden");
+    if (name === "quiz") screenQuiz.classList.remove("hidden");
+    if (name === "result") screenResult.classList.remove("hidden");
+  }
+
+  function buildSession(){
+    var cfg = MODES[state.mode];
+    var picked = shuffle(cfg.pool).slice(0, cfg.ask);
+    return picked.map(function(item){
+      var optOrder = shuffle([0,1,2,3]);
+      var newOpts = optOrder.map(function(i){ return item.a[i]; });
+      var newCorrect = optOrder.indexOf(0);
+      return {s:item.s, q:item.q, opts:newOpts, correct:newCorrect};
+    });
+  }
+
+  function renderQuestion(){
+    state.locked = false;
+    var cfg = MODES[state.mode];
+    var item = state.session[state.index];
+    askedCount.textContent = "Question " + (state.index + 1) + " of up to " + cfg.ask;
+    tally.textContent = "Correct " + state.correct + " \u00B7 Incorrect " + state.incorrect;
+    sectionLabel.textContent = item.s;
+    questionText.textContent = item.q;
+    answerNote.textContent = "";
+    nextBtn.classList.add("hidden");
+    optionsWrap.innerHTML = "";
+    var letters = ["A","B","C","D"];
+    item.opts.forEach(function(opt, i){
+      var btn = document.createElement("button");
+      btn.className = "option";
+      btn.type = "button";
+      var span = document.createElement("span");
+      span.className = "letter";
+      span.textContent = letters[i] + ".";
+      btn.appendChild(span);
+      var txt = document.createElement("span");
+      txt.textContent = opt;
+      btn.appendChild(txt);
+      btn.addEventListener("click", function(){ handleAnswer(i, item); });
+      optionsWrap.appendChild(btn);
+    });
+  }
+
+  function handleAnswer(choiceIndex, item){
+    if (state.locked) return;
+    state.locked = true;
+    var buttons = optionsWrap.querySelectorAll(".option");
+    for (var i = 0; i < buttons.length; i++){
+      buttons[i].disabled = true;
+      if (i === item.correct) buttons[i].classList.add("correct");
+      else if (i === choiceIndex) buttons[i].classList.add("wrong");
+    }
+    var isCorrect = choiceIndex === item.correct;
+    if (isCorrect){
+      state.correct += 1;
+      answerNote.textContent = "Official answer: " + item.opts[item.correct];
+    } else {
+      state.incorrect += 1;
+      answerNote.textContent = "Official answer: " + item.opts[item.correct];
+      state.missed.push({q:item.q, a:item.opts[item.correct]});
+    }
+    tally.textContent = "Correct " + state.correct + " \u00B7 Incorrect " + state.incorrect;
+
+    var cfg = MODES[state.mode];
+    if (state.correct >= cfg.passAt || state.incorrect >= cfg.failAt || state.index >= state.session.length - 1){
+      nextBtn.textContent = "See My Results";
+    } else {
+      nextBtn.textContent = "Continue";
+    }
+    nextBtn.classList.remove("hidden");
+  }
+
+  function nextQuestion(){
+    var cfg = MODES[state.mode];
+    if (state.correct >= cfg.passAt || state.incorrect >= cfg.failAt || state.index >= state.session.length - 1){
+      showResult();
+      return;
+    }
+    state.index += 1;
+    renderQuestion();
+  }
+
+  function showResult(){
+    showScreen("result");
+    var cfg = MODES[state.mode];
+    var asked = state.correct + state.incorrect;
+    document.getElementById("resultTally").textContent = "Answered " + state.correct + " of " + asked + " correctly (" + cfg.label + ")";
+    var passed = state.correct >= cfg.passAt;
+    var stampEl = document.getElementById("stampMark");
+    stampEl.className = "stamp " + (passed ? "pass" : "fail");
+    stampEl.textContent = passed ? "Requirement Met" : "Requirement Not Met";
+    var msg = "";
+    if (passed){
+      msg = "In a real " + cfg.label.toLowerCase() + " interview, the officer would stop here since you reached " + cfg.passAt + " correct answers. Strong showing.";
+    } else {
+      msg = "In a real " + cfg.label.toLowerCase() + " interview, the officer would stop once " + cfg.failAt + " answers are missed. Review the questions below and try another session.";
+    }
+    document.getElementById("resultMessage").textContent = msg;
+    setTimeout(function(){ stampEl.classList.add("show"); }, 150);
+
+    var reviewBlock = document.getElementById("reviewBlock");
+    var reviewList = document.getElementById("reviewList");
+    reviewList.innerHTML = "";
+    if (state.missed.length > 0){
+      reviewBlock.classList.remove("hidden");
+      state.missed.forEach(function(m){
+        var item = document.createElement("div");
+        item.className = "review-item";
+        var qEl = document.createElement("div");
+        qEl.className = "rq";
+        qEl.textContent = m.q;
+        var aEl = document.createElement("div");
+        aEl.className = "ra";
+        aEl.textContent = "Official answer: " + m.a;
+        item.appendChild(qEl);
+        item.appendChild(aEl);
+        reviewList.appendChild(item);
+      });
+    } else {
+      reviewBlock.classList.add("hidden");
+    }
+
+    var stats = loadStats();
+    stats.sessions += 1;
+    if (state.correct > stats.best){
+      stats.best = state.correct;
+      stats.bestAsked = asked;
+    }
+    saveStats(stats);
+  }
+
+  var mode2008Btn = document.getElementById("mode2008Btn");
+  var mode2025Btn = document.getElementById("mode2025Btn");
+  var modeExplainer = document.getElementById("modeExplainer");
+
+  function setMode(mode){
+    state.mode = mode;
+    mode2008Btn.classList.toggle("selected", mode === "2008");
+    mode2025Btn.classList.toggle("selected", mode === "2025");
+    modeExplainer.textContent = MODES[mode].note;
+    renderStatsLine();
+  }
+
+  mode2008Btn.addEventListener("click", function(){ setMode("2008"); });
+  mode2025Btn.addEventListener("click", function(){ setMode("2025"); });
+
+  startBtn.addEventListener("click", function(){
+    state.session = buildSession();
+    state.index = 0;
+    state.correct = 0;
+    state.incorrect = 0;
+    state.missed = [];
+    showScreen("quiz");
+    renderQuestion();
+  });
+
+  nextBtn.addEventListener("click", nextQuestion);
+
+  againBtn.addEventListener("click", function(){
+    state.session = buildSession();
+    state.index = 0;
+    state.correct = 0;
+    state.incorrect = 0;
+    state.missed = [];
+    showScreen("quiz");
+    renderQuestion();
+  });
+
+  var textSizeBtn = document.getElementById("textSizeBtn");
+  textSizeBtn.addEventListener("click", function(){
+    document.body.classList.toggle("large-text");
+    textSizeBtn.textContent = document.body.classList.contains("large-text") ? "A-" : "A+";
+  });
+
+  renderStatsLine();
+  setMode("2008");
+  showScreen("start");
+})();
+</script>
+
+</body>
+</html>
